@@ -38,6 +38,7 @@ namespace TestBlogCore.Areas.Client.Controllers
         }
 
         [HttpGet]
+        //Metodo para buscar articulos
         public IActionResult SearchResult(string searchString,int page=1, int pageSize=6)
         {
             var articles = _workContainer.Article.AsQueryable();

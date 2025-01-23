@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using TestBlogCore.AccesoDatos.Data.Initializer;
 using TestBlogCore.AccesoDatos.Data.Repository;
 using TestBlogCore.AccesoDatos.Data.Repository.IRepository;
 using TestBlogCore.Data;
@@ -18,9 +19,15 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.S
     .AddDefaultUI();
 builder.Services.AddControllersWithViews();
 
-#region Agregar controlador de trabajo al IoC de inyecci�n de dependencias.
+#region Agregar controlador de trabajo al IoC de inyección de dependencias.
 
 builder.Services.AddScoped<IWorkContainer, WorkContainer>();
+
+#endregion
+
+#region Inyectar el servicio de inicialización de la base de datos.
+
+builder.Services.AddScoped<IInitializerDb, InitializerDb>();
 
 #endregion
 
@@ -37,6 +44,8 @@ else
 }
 app.UseStaticFiles();
 
+SeedingData();
+
 app.UseRouting();
 
 app.UseAuthorization();
@@ -47,3 +56,13 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+
+// Método para sembrar datos en la base de datos.
+void SeedingData()
+{
+    using(var scope = app.Services.CreateScope())
+    {
+        var initializerDb = scope.ServiceProvider.GetRequiredService<IInitializerDb>();
+        initializerDb.Initialize();
+    }
+}
