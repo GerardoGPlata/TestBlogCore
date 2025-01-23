@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Lista de Categorias";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="text-primary">Categorias</h2>
+        </div>
+        <div>
+            <a asp-action="Create" class="btn btn-primary"><i class="fas fa-plus"></i> Crear Categoria</a>
+        </div>
+        <br/>
+        <div class="col-md-12">
+            <table class="table table-bordered table-striped" id="tblCategories" style="width: 100%">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Orden</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+            </table>
+    </div>
+</div>
+</div>
+
+@section Scripts
+{
+    <script src="~/js/categories.js"></script>
+}

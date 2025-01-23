@@ -1,0 +1,151 @@
+﻿@model TestBlogCore.Models.Slider
+@{
+    ViewData["Title"] = "Añadir Slider";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            @* Aumentado el ancho para mejor visualización del editor *@
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="card-title text-center mb-4">
+                        <i class="fas fa-edit me-2"></i>Añadir Slider
+                    </h2>
+
+                    <form method="POST" asp-action="Create" enctype="multipart/form-data">
+                        @if (ViewContext.ViewData.ModelState.ErrorCount > 0)
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <div asp-validation-summary="All"></div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input asp-for="Name" class="form-control" placeholder="Nombre del Slider" />
+                                    <label asp-for="Name">Nombre del Slider</label>
+                                    <span asp-validation-for="Name" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input asp-for="State" class="form-check-input" type="checkbox" id="stateCheckbox" />
+                                    <label asp-for="State" class="form-check-label" for="stateCheckbox">Estado (Activo/Inactivo)</label>
+                                    <span asp-validation-for="State" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <i class="fas fa-image me-2"></i>Imagen del artículo
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <div class="input-group">
+                                                <input asp-for="URLImage"
+                                                       type="file"
+                                                       class="form-control"
+                                                       name="files"
+                                                       id="uploadFile"
+                                                       accept="image/*"
+                                                       onchange="previewImage(this)" />
+                                            </div>
+                                            <span asp-validation-for="URLImage" class="text-danger small"></span>
+                                        </div>
+                                        <div id="imagePreview" class="text-center d-none">
+                                            <img src="#" alt="Vista previa" class="img-fluid rounded shadow-sm" style="max-height: 200px" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <partial name="_ViewCreateBack" /></partial>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/7.6.0/tinymce.min.js" integrity="sha512-/4EpSbZW47rO/cUIb0AMRs/xWwE8pyOLf8eiDWQ6sQash5RP1Cl8Zi2aqa4QEufjeqnzTK8CLZWX7J5ZjLcc1Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        // Función para previsualizar la imagen
+        function previewImage(input) {
+            const preview = document.getElementById('imagePreview');
+            const previewImg = preview.querySelector('img');
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    preview.classList.remove('d-none');
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                previewImg.src = '#';
+                preview.classList.add('d-none');
+            }
+        }
+
+        // Configuración personalizada de TinyMCE
+        tinymce.init({
+            selector: 'textarea',
+            height: 400,
+            plugins: [
+                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                'insertdatetime', 'media', 'table', 'help', 'wordcount'
+            ],
+            toolbar_mode: 'sliding',
+            toolbar: [
+                'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify',
+                'bullist numlist outdent indent | removeformat | help'
+            ],
+            // Tema Vapor-inspired
+            skin: 'oxide-dark',
+            content_css: 'dark',
+            content_style: `
+                body {
+                    font-family: "Poppins", sans-serif;
+                    font-size: 1rem;
+                    background-color: #1a1a1a;
+                    color: #fff;
+                }
+                .mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before {
+                    color: rgba(255, 255, 255, 0.6);
+                }
+            `,
+            // Personalización adicional
+            menubar: false,
+            statusbar: true,
+            branding: false,
+            promotion: false,
+            placeholder: 'Escribe la descripción de tu artículo aquí...',
+            // Estilo del editor
+            style_formats: [
+                { title: 'Encabezados', items: [
+                    { title: 'Encabezado 1', format: 'h1' },
+                    { title: 'Encabezado 2', format: 'h2' },
+                    { title: 'Encabezado 3', format: 'h3' }
+                ]},
+                { title: 'Inline', items: [
+                    { title: 'Negrita', format: 'bold' },
+                    { title: 'Cursiva', format: 'italic' },
+                    { title: 'Subrayado', format: 'underline' }
+                ]}
+            ],
+        });
+    </script>
+}

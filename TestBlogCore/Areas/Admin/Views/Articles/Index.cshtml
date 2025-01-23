@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Lista de Articulos";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="text-primary">Articulos</h2>
+        </div>
+        <br />
+        <div>
+            <a asp-action="Create" class="btn btn-primary"><i class="fas fa-plus"></i> Crear Articulo</a>
+        </div>
+        <br />
+        <div class="col-md-12">
+            <table class="table table-bordered table-striped" id="tlbArticles" style="width: 100%">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Categoria</th>
+                        <th>Imagen</th>
+                        <th>Fecha de Creación</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/js/articles.js"></script>
+}

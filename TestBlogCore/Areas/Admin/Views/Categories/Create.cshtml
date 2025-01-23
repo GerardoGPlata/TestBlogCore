@@ -1,0 +1,41 @@
+﻿@model TestBlogCore.Models.Category
+
+@{
+    ViewData["Title"] = "Crear Categoría";
+}
+
+<div class="container mt-4">
+    <h2 class="text-primary text-center">Crear Categoría</h2>
+
+    <form method="POST" asp-action="Create" class="mt-3">
+        <!-- Mensaje de validación general -->
+        <div asp-validation-summary="All" class="text-bg-danger"></div>
+
+        <div class="row g-3">
+            <!-- Campo Nombre -->
+            <div class="form-group col-md-6">
+                <label asp-for="Name" class="form-label text-secondary">Nombre</label>
+                <input asp-for="Name" class="form-control" placeholder="Ingrese el nombre de la categoría" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <!-- Campo Orden -->
+            <div class="form-group cod-md-6">
+                <label asp-for="Order" class="form-label text-secondary">Orden</label>
+                <input asp-for="Order" class="form-control" placeholder="Ingrese el orden de la categoría" />
+                <span asp-validation-for="Order" class="text-danger"></span>
+            </div>
+        </div>
+
+        <!-- Botones -->
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <partial name="_ViewCreateBack" />
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,93 @@
+﻿@model TestBlogCore.Models.Slider
+@{
+    ViewData["Title"] = "Editar Slider";
+}
+
+<div class="container-fluid py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-11">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="card-title text-center mb-4">
+                        <i class="fas fa-edit me-2"></i>Editar Slider
+                    </h2>
+
+                    <form method="POST" asp-action="Edit" enctype="multipart/form-data">
+                        <input type="hidden" asp-for="Id" />
+                        @if (ViewContext.ViewData.ModelState.ErrorCount > 0)
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <div asp-validation-summary="All"></div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        <div class="row">
+                            <!-- Columna Izquierda - Formulario Principal -->
+                            <div class="col-lg-8 pe-lg-4">
+                                <div class="row g-4">
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input asp-for="Name" class="form-control" placeholder="Nombre del artículo" />
+                                            <label asp-for="Name">Nombre del slider</label>
+                                            <span asp-validation-for="Name" class="text-danger small"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-check form-switch">
+                                            <input asp-for="State" class="form-check-input" type="checkbox" id="stateCheckbox" />
+                                            <label asp-for="State" class="form-check-label" for="stateCheckbox">
+                                                Estado (Activo/Inactivo)
+                                            </label>
+                                            <span asp-validation-for="State" class="text-danger small"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Columna Derecha - Imagen -->
+                            <div class="col-lg-4 mt-4 mt-lg-0">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <i class="fas fa-image me-2"></i>Imagen del slider
+                                    </div>
+                                    <div class="card-body d-flex flex-column">
+                                        <div id="imagePreview" class="text-center mb-3 flex-grow-1 @(string.IsNullOrEmpty(Model.URLImage) ? "d-none" : "")">
+                                            <img src="@Model.URLImage" alt="Vista previa" class="img-fluid rounded shadow-sm" style="max-height: 300px" />
+                                        </div>
+                                        <div class="mt-auto">
+                                            <div class="input-group">
+                                                <input asp-for="URLImage"
+                                                       type="file"
+                                                       class="form-control"
+                                                       name="files"
+                                                       id="uploadFile"
+                                                       accept="image/*"
+                                                       onchange="previewImage(this)" />
+                                            </div>
+                                            <span asp-validation-for="URLImage" class="text-danger small"></span>
+                                            <small class="text-muted mt-2 d-block">
+                                                <i class="fas fa-info-circle me-1"></i>
+                                                Formatos permitidos: JPG, PNG, GIF
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-center gap-3 mt-4">
+                            <a asp-action="Index" class="btn btn-outline-primary px-4">
+                                <i class="fas fa-arrow-left me-2"></i>Volver
+                            </a>
+                            <button type="submit" class="btn btn-primary px-4">
+                                <i class="fas fa-save me-2"></i>Guardar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
